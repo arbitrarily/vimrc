@@ -7,6 +7,7 @@
 " }}}
 
 " Misc {{{
+    set hidden
     set ttyfast             " faster redraw
     set backspace=indent,eol,start
 " }}}
