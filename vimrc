@@ -1,17 +1,15 @@
 " http://nvie.com/posts/how-i-boosted-my-vim/
 " http://natelandau.com/bash-scripting-utilities/
 
-" Colors {{{
+" Colors
     syntax enable           " enable syntax processing
     colorscheme badwolf     " https://github.com/sjl/badwolf
-" }}}
 
-" Misc {{{
+" Misc
     set ttyfast             " faster redraw
     set backspace=indent,eol,start
-" }}}
 
-" Spaces & Tabs {{{
+" Spaces & Tabs
     set tabstop=4           " 4 space tab
     set expandtab           " use spaces for tabs
     set softtabstop=4       " 4 space tab
@@ -20,9 +18,8 @@
     filetype indent on
     filetype plugin on
     set autoindent
-" }}}
 
-" UI Layout {{{
+" UI Layout
     set number              " show line numbers
     set showcmd             " show command in bottom bar
     set cursorline          " highlight current line
@@ -30,24 +27,20 @@
     set wildmenu
     "set lazyredraw
     set showmatch           " higlight matching parenthesis
-" }}}
 
-" Searching {{{
+" Searching
     set ignorecase          " ignore case when searching
     set incsearch           " search as characters are entered
     set hlsearch            " highlight all matches
-" }}}
 
-" Folding {{{
-    "=== folding ===
+" Folding
     set foldmethod=indent   " fold based on indent level
     set foldnestmax=10      " max 10 depth
     set foldenable          " don't fold files by default on open
     nnoremap <space> za
     set foldlevelstart=10    " start with fold level of 1
-" }}}
 
-" Line Shortcuts {{{
+" Line Shortcuts
     nnoremap j gj
     nnoremap k gk
     nnoremap B ^
@@ -70,9 +63,8 @@
     xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
     onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
     xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-" }}}
 
-" Leader Shortcuts {{{
+" Leader Shortcuts
     let mapleader=","
     nnoremap <leader>m :silent make\|redraw!\|cw<CR>
     nnoremap <leader>w :NERDTree<CR>
@@ -94,9 +86,8 @@
     vmap v <Plug>(expand_region_expand)
     vmap <C-v> <Plug>(expand_region_shrink)
     inoremap jk <esc>
-" }}}
 
-" Powerline {{{
+" Powerline
     "set encoding=utf-8
     "python from powerline.vim import setup as powerline_setup
     "python powerline_setup()
@@ -108,31 +99,26 @@
     let g:airline_right_sep = ''
     let g:airline_right_alt_sep = ''
     set laststatus=2
-" }}}
 
-" CtrlP {{{
+" CtrlP
     let g:ctrlp_match_window = 'bottom,order:ttb'
     let g:ctrlp_switch_buffer = 0
     let g:ctrlp_working_path_mode = 0
     let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
-" }}}
 
-" NERDTree {{{
+" NERDTree
     let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
-" }}}
 
-" Syntastic {{{
+" Syntastic
     let g:syntastic_python_flake8_args='--ignore=E501'
     let g:syntastic_ignore_files = ['.java$']
-" }}}
 
-" Launch Config {{{
+" Launch Config
     runtime! debian.vim
     set nocompatible
     call pathogen#infect()
-" }}}
 
-"" Tmux {{{
+"" Tmux
     "if exists('$TMUX') " allows cursor change in tmux mode
     "    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     "    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -140,14 +126,13 @@
     "    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     "    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
     "endif
-"" }}}
 
-" MacVim {{{
+
+" MacVim
     set guioptions-=r
     set guioptions-=L
-" }}}
 
-" AutoGroups {{{
+" AutoGroups
     augroup configgroup
         autocmd!
         autocmd VimEnter * highlight clear SignColumn
@@ -159,17 +144,15 @@
         autocmd BufEnter *.sh setlocal shiftwidth=2
         autocmd BufEnter *.sh setlocal softtabstop=2
     augroup END
-" }}}
 
-" Backups {{{
+" Backups
     set backup
     set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
     set backupskip=/tmp/*,/private/tmp/*
     set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
     set writebackup
-" }}}
 
-" Custom Functions {{{
+" Custom Functions
     function! ToggleNumber()
         if(&relativenumber == 1)
             set norelativenumber
@@ -238,6 +221,5 @@
 
       exe "normal! ".a:dir.c."v".a:motion.c
     endfunction
-" }}}
 
 " vim:foldmethod=marker:foldlevel=0
