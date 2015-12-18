@@ -87,36 +87,11 @@
     vmap <C-v> <Plug>(expand_region_shrink)
     inoremap jk <esc>
 
-" Powerline
-    "set encoding=utf-8
-    "python from powerline.vim import setup as powerline_setup
-    "python powerline_setup()
-    "python del powerline_setup
-    let g:airline#extensions#tabline#left_sep = ' '
-    let g:airline#extensions#tabline#left_alt_sep = '|'
-    let g:airline_left_sep = ''
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ''
-    let g:airline_right_alt_sep = ''
-    set laststatus=2
-
 " CtrlP
     let g:ctrlp_match_window = 'bottom,order:ttb'
     let g:ctrlp_switch_buffer = 0
     let g:ctrlp_working_path_mode = 0
     let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
-
-" NERDTree
-    let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
-
-" Syntastic
-    let g:syntastic_python_flake8_args='--ignore=E501'
-    let g:syntastic_ignore_files = ['.java$']
-
-" Launch Config
-    runtime! debian.vim
-    set nocompatible
-    call pathogen#infect()
 
 "" Tmux
     "if exists('$TMUX') " allows cursor change in tmux mode
@@ -126,7 +101,6 @@
     "    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     "    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
     "endif
-
 
 " MacVim
     set guioptions-=r
@@ -161,28 +135,6 @@
             set relativenumber
         endif
     endfunc
-
-    function! RunTestFile()
-        if(&ft=='python')
-            exec ":!" . ". venv/bin/activate; nosetests " .bufname('%') . " --stop"
-        endif
-    endfunction
-
-    function! RunGoFile()
-        if(&ft=='go')
-            exec ":new|0read ! go run " . bufname('%')
-        endif
-    endfunction
-
-    function! RunTestsInFile()
-        if(&ft=='php')
-            :execute "!" . "/Users/dblack/pear/bin/phpunit -d memory_limit=512M -c /usr/local/twilio/src/php/tests/config.xml --bootstrap /usr/local/twilio/src/php/tests/bootstrap.php " . bufname('%') . ' \| grep -v Configuration \| egrep -v "^$" '
-        elseif(&ft=='go')
-            exec ":!gp test"
-        elseif(&ft=='python')
-            exec ":read !" . ". venv/bin/activate; nosetests " . bufname('%') . " --nocapture"
-        endif
-    endfunction
 
     " strips trailing whitespace at the end of files. this
     " is called on buffer write in the autogroup above.
