@@ -306,4 +306,4 @@ let g:lightline = {
     " https://github.com/tpope/vim-surround
 
 " Source plugins
-    so ~/.vim/plugins.vim
+    " so ~/.vim/plugins.vim
