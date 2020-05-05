@@ -1,7 +1,6 @@
 " http://nvie.com/posts/how-i-boosted-my-vim/
 " http://natelandau.com/bash-scripting-utilities/
 
-set nocompatible            " be iMproved, required
 filetype off                " required
 
 " Automatic installation of vim-plug (https://github.com/junegunn/vim-plug)
@@ -13,7 +12,9 @@ filetype off                " required
 
 " Colors
     syntax enable           " enable syntax processing
-    colorscheme badwolf     " https://github.com/sjl/badwolf
+    if g:os == 'Darwin'
+        colorscheme badwolf     " https://github.com/sjl/badwolf
+    endif
 
 " Keep Plug commands between plug#begin() and plug#end().
     call plug#begin('~/.vim/bundle')
@@ -147,9 +148,9 @@ filetype off                " required
     let g:syntastic_ignore_files = ['.java$']
 
 " Launch Config
-    runtime! debian.vim
+    " runtime! debian.vim
     set nocompatible
-    call pathogen#infect()
+    " call pathogen#infect()
 
 " Highlight Indents
     " let g:indent_guides_enable_on_vim_startup = 1
