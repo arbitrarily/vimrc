@@ -1,9 +1,37 @@
 " http://nvie.com/posts/how-i-boosted-my-vim/
 " http://natelandau.com/bash-scripting-utilities/
 
+set nocompatible            " be iMproved, required
+filetype off                " required
+
+" Automatic installation of vim-plug (https://github.com/junegunn/vim-plug)
+    if empty(glob('~/.vim/autoload/plug.vim'))
+      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+
 " Colors
     syntax enable           " enable syntax processing
     colorscheme badwolf     " https://github.com/sjl/badwolf
+
+" Keep Plug commands between plug#begin() and plug#end().
+    call plug#begin('~/.vim/bundle')
+
+" Plugins
+    Plug 'pangloss/vim-javascript'                         " JavaScript support
+    Plug 'yuezk/vim-js'                                    " JavaScript support
+    Plug 'maxmellon/vim-jsx-pretty'                        " JSX support
+    Plug 'jparise/vim-graphql'                             " GraphQL support
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }    " fzf support
+    Plug 'junegunn/fzf.vim'                                " fzf support
+    Plug 'itchyny/lightline.vim'                           " lightline support
+    Plug 'tpope/vim-surround'                              " surround support
+    Plug 'airblade/vim-gitgutter'                          " gitgutter support
+
+" All of your Plugins must be added before the following line
+    call plug#end()              " required
+    filetype plugin indent on    " required
 
 " Misc
     set ttyfast             " faster redraw
@@ -87,11 +115,45 @@
     vmap <C-v> <Plug>(expand_region_shrink)
     inoremap jk <esc>
 
+" Powerline
+    " set encoding=utf-8
+    " python from powerline.vim import setup as powerline_setup
+    " python powerline_setup()
+    " python del powerline_setup
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '|'
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    set laststatus=2
+
+" Allow copy and paste from system clipboard
+    set pastetoggle=<F3>
+    set clipboard=unnamed
+    set showmode
+
 " CtrlP
     let g:ctrlp_match_window = 'bottom,order:ttb'
     let g:ctrlp_switch_buffer = 0
     let g:ctrlp_working_path_mode = 0
     let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
+
+" NERDTree
+    let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
+
+" Syntastic
+    let g:syntastic_python_flake8_args='--ignore=E501'
+    let g:syntastic_ignore_files = ['.java$']
+
+" Launch Config
+    runtime! debian.vim
+    set nocompatible
+    call pathogen#infect()
+
+" Highlight Indents
+    " let g:indent_guides_enable_on_vim_startup = 1
+    let g:javascript_plugin_jsdoc = 1
 
 "" Tmux
     "if exists('$TMUX') " allows cursor change in tmux mode
@@ -101,6 +163,9 @@
     "    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     "    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
     "endif
+
+" Mouse Scroll
+    set mouse=a
 
 " MacVim
     set guioptions-=r
@@ -120,11 +185,32 @@
     augroup END
 
 " Backups
-    set backup
+    " set backup
     set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
     set backupskip=/tmp/*,/private/tmp/*
     set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-    set writebackup
+    " set writebackup
+
+" Disable backups and swap files
+    set nobackup
+    set nowritebackup
+    set noswapfile
+
+    set ignorecase " Ignore case when searching
+    set smartcase  " When searching try to be smart about cases
+    set nohlsearch " Don't highlight search term
+    set incsearch  " Jumping search
+
+" Spellcheck for features and markdown
+    au BufRead,BufNewFile *.md setlocal spell
+    au BufRead,BufNewFile *.md.erb setlocal spell
+    au BufRead,BufNewFile *.feature setlocal spell
+    au BufRead,BufNewFile *.txt setlocal spell
+
+" Faster saving and exiting
+    nnoremap <silent><leader>w :w!<CR>
+    nnoremap <silent><leader>q :q!<CR>
+    nnoremap <silent><leader>x :x<CR>
 
 " Custom Functions
     function! ToggleNumber()
@@ -135,6 +221,28 @@
             set relativenumber
         endif
     endfunc
+
+    function! RunTestFile()
+        if(&ft=='python')
+            exec ":!" . ". venv/bin/activate; nosetests " .bufname('%') . " --stop"
+        endif
+    endfunction
+
+    function! RunGoFile()
+        if(&ft=='go')
+            exec ":new|0read ! go run " . bufname('%')
+        endif
+    endfunction
+
+    function! RunTestsInFile()
+        if(&ft=='php')
+            :execute "!" . "/Users/dblack/pear/bin/phpunit -d memory_limit=512M -c /usr/local/twilio/src/php/tests/config.xml --bootstrap /usr/local/twilio/src/php/tests/bootstrap.php " . bufname('%') . ' \| grep -v Configuration \| egrep -v "^$" '
+        elseif(&ft=='go')
+            exec ":!gp test"
+        elseif(&ft=='python')
+            exec ":read !" . ". venv/bin/activate; nosetests " . bufname('%') . " --nocapture"
+        endif
+    endfunction
 
     " strips trailing whitespace at the end of files. this
     " is called on buffer write in the autogroup above.
@@ -175,3 +283,17 @@
     endfunction
 
 " vim:foldmethod=marker:foldlevel=0
+
+" Map fzf to ;
+    map ; :Files<CR>
+
+" Fix for fzf installed from different places
+    set rtp+=/usr/local/opt/fzf
+
+" colorscheme for lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+
+" how to use text surround
+    " https://github.com/tpope/vim-surround
