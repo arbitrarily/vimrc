@@ -292,8 +292,15 @@ filetype off                " required
 
 " colorscheme for lightline
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+  \     'active': {
+  \         'left': [['mode', 'paste' ], ['readonly', 'filename', 'modified']],
+  \         'right': [['lineinfo'], ['percent'], ['gitbranch', 'fileformat', 'fileencoding']]
+  \     },
+  \     'component_function': {
+  \         'gitbranch': 'gitbranch#name'
+  \     },
+  \     'colorscheme': 'wombat',
+  \ }
 
 " how to use text surround
     " https://github.com/tpope/vim-surround
