@@ -304,3 +304,6 @@ let g:lightline = {
 
 " how to use text surround
     " https://github.com/tpope/vim-surround
+
+" Source plugins
+    so ~/.vim/plugins.vim
