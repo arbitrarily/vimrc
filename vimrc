@@ -12,8 +12,11 @@ filetype off                " required
 
 " Colors
     syntax enable           " enable syntax processing
-    if g:os == 'Darwin'
-        colorscheme badwolf     " https://github.com/sjl/badwolf
+    if has("unix")    
+        let s:uname = system("uname")
+        if s:uname == "Darwin\n"
+            colorscheme badwolf     " https://github.com/sjl/badwolf
+        endif
     endif
 
 " Keep Plug commands between plug#begin() and plug#end().
